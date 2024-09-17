@@ -8,7 +8,7 @@ class UI:
         print("Cadastro de Clientes")
         print("  6 - Inserir, 7 - Listar todos, 8 - Atualizar , 9 - Excluir")
         print("Gerenciamento de contas")
-        print("10- Depositar, 11- Sacar")
+        print("10-Inserir conta, 11- Listar todas as contas, 12- Listar contas do cliente, 13- Atualizar conta, 14- Excluir conta, 15- Depositar, 16- Sacar")
         print("Outras opções")
         print("  0 - Fim")
 
@@ -26,8 +26,13 @@ class UI:
             if op == 7: UI.listar_todos_clientes()
             if op == 8: UI.atualizar_cliente()
             if op == 9: UI.excluir_cliente()
-            if op == 10: UI.depositar()
-            if op == 11: UI.sacar()
+            if op == 10: UI.inserir_conta()
+            if op == 11: UI.listar_todas_contas()
+            if op == 12: UI.listar_contas_cliente()
+            if op == 13: UI.atualizar_conta()
+            if op == 14: UI.excluir_conta()
+            if op == 15: UI.depositar()
+            if op == 16: UI.sacar()
 
     def inserir_banco():
         nome = input("Insira o nome do banco a ser adicionado: ")
@@ -41,6 +46,12 @@ class UI:
         nome = input("Insira o nome do cliente: ")
         cpf = input("Insira o CPF do cliente: ")
         views.inserir_cliente(idBanco, nome, cpf)
+    def inserir_conta():
+        UI.listar_bancos()
+        idBanco = int(input("Insira o id do banco associado à conta: "))
+        UI.listar_todos_clientes()
+        idCliente = int(input("Insira o id do cliente associado à conta: "))
+        views.inserir_conta(idBanco, idCliente)
     def ids_bancos():
         bancos = views.listar_bancos()
         ids = set()
@@ -62,15 +73,27 @@ class UI:
         clientes = views.listar_clientes_banco(idBanco)
         for c in clientes:
             print(c)
-        
-
+    def listar_todas_contas():
+        contas = views.listar_todas_contas()
+        for c in contas: print(c)
+    def listar_contas_cliente(): 
+        UI.listar_bancos()
+        idBanco = int(input("Insira o id do banco associado à conta: "))
+        UI.listar_todos_clientes()
+        idCliente = int(input("Insira o id do cliente associado à conta: "))
+        contas = views.listar_contas_cliente(idBanco, idCliente)
+        for c in contas: print(c)
     def atualizar_banco():
         pass
     def atualizar_cliente():
         pass
+    def atualizar_conta():
+        pass
     def excluir_banco():
         pass
     def excluir_cliente():
+        pass
+    def excluir_conta():
         pass
     def sacar():
         pass

@@ -6,7 +6,7 @@ class Banco:
         self.id = id
         self.nome = nome
         self.lista_clientes = []
-    def atualizar_clientes(self):
+    def listar_clientes(self):
         print("Atualizando clientes")
         self.lista_clientes = Clientes.clientes_banco_x(self.id)
         return self.lista_clientes
@@ -47,8 +47,8 @@ class Bancos:
         return None
     @classmethod 
     def listar_clientes_banco(cls, id):
-        banco = cls.listar_id(id)
-        return banco.atualizar_clientes()
+        b = cls.listar_id(id)
+        return b.listar_clientes()
     @classmethod
     def salvar(cls):
         with open("bancos.json", mode="w") as arquivo:   # w - write
