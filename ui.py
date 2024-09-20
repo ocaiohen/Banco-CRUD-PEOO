@@ -51,7 +51,8 @@ class UI:
         idBanco = int(input("Insira o id do banco associado à conta: "))
         UI.listar_todos_clientes()
         idCliente = int(input("Insira o id do cliente associado à conta: "))
-        views.inserir_conta(idBanco, idCliente)
+        tipo = input("Insira o tipo da conta: ")
+        views.inserir_conta(idBanco, idCliente, tipo)
     def ids_bancos():
         bancos = views.listar_bancos()
         ids = set()
@@ -84,20 +85,48 @@ class UI:
         contas = views.listar_contas_cliente(idBanco, idCliente)
         for c in contas: print(c)
     def atualizar_banco():
-        pass
+        UI.listar_bancos()
+        idBanco = int(input("Insira o id do banco a ser atualizado: "))
+        novoNome = input("Insira o novo nome do banco: ")
+        views.atualizar_banco(idBanco, novoNome)
     def atualizar_cliente():
-        pass
+        UI.listar_todos_clientes()
+        idCliente = int(input("Insira o id do cliente a ter informações atualizadas: "))
+        novoNome = input("Insira o novo nome do cliente: ")
+        novoCPF = input("Insira o novo CPF do cliente: ")
+        views.atualizar_cliente(idCliente, novoNome, novoCPF)
     def atualizar_conta():
-        pass
+        UI.listar_contas_cliente()
+        idConta = int(input("Insira o id da conta a ser atualizada: "))
+        idBanco = int(input("Insira o novo id do banco: "))
+        idCliente = int(input("Insira o novo id do cliente: "))
+        tipo = input("Insira o novo tipo da conta: ")
+        views.atualizar_conta(idConta, idBanco, idCliente, tipo)
     def excluir_banco():
-        pass
+        UI.listar_bancos()
+        idBanco = int(input("Insira o id do banco a ser excluído: "))
+        views.excluir_banco(idBanco)
     def excluir_cliente():
-        pass
+        UI.listar_todos_clientes()
+        idCliente = int(input("Insira o id do cliente a ser excluído: "))
+        views.excluir_cliente(idCliente)
     def excluir_conta():
-        pass
+        UI.listar_contas_cliente()
+        idConta = int(input("Insira o id da conta a ser excluída: "))
+        views.excluir_conta(idConta)
     def sacar():
-        pass
+        UI.listar_contas_cliente()
+        idConta = int(input("Insira o id da conta: "))
+        quantia = float(input("Insira a quantia a ser sacada: "))
+        if quantia > 0:
+            views.sacar(idConta, quantia)
+        else: print("Quantia deve ser maior que zero!")
     def depositar():
-        pass
+        UI.listar_contas_cliente()
+        idConta = int(input("Insira o id da conta: "))
+        quantia = float(input("Insira a quantia a ser depositada: "))
+        if quantia > 0:
+            views.depositar(idConta, quantia)
+        else: print("Quantia deve ser maior que zero!")
 
 UI.main()

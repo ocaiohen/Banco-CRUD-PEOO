@@ -7,7 +7,6 @@ class Banco:
         self.nome = nome
         self.lista_clientes = []
     def listar_clientes(self):
-        print("Atualizando clientes")
         self.lista_clientes = Clientes.clientes_banco_x(self.id)
         return self.lista_clientes
     def __str__(self):

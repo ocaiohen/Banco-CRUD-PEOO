@@ -1,13 +1,24 @@
 import json 
 
 class Conta:
-    def __init__(self, id: int, idBanco: int, idCliente: int):
+    def __init__(self, id: int, idBanco: int, idCliente: int, tipo: str, saldo: float):
         self.id = id
         self.idBanco = idBanco
         self.idCliente = idCliente
-        self.saldo = 0.01
+        self.tipo = tipo
+        self.saldo = saldo
+    def sacar(self, quantia : float):
+        if self.saldo - quantia >= 0 and quantia > 0:
+            self.saldo -= quantia
+            self.arredondar_saldo()
+    def depositar(self, quantia : float):
+        if quantia > 0:
+            self.saldo += quantia
+            self.arredondar_saldo()
+    def arredondar_saldo(self):
+        self.saldo = round(self.saldo)
     def __str__(self):
-        return f"ID da conta: {self.id}; ID do Banco: {self.idBanco}; ID do Cliente: {self.idCliente}; Saldo da conta: {self.saldo}"
+        return f"ID da conta: {self.id}; ID do Banco: {self.idBanco}; ID do Cliente: {self.idCliente}; Tipo da conta: {self.tipo}; Saldo da conta: {self.saldo}"
 
 class Contas:
     contas = []
@@ -26,14 +37,14 @@ class Contas:
         if c != None:
             cls.contas.remove(c)
             cls.salvar()
-    # @classmethod
-    # def atualizar(cls, obj):
-    #     b = cls.listar_id(obj.id)
-    #     if b != None:
-    #         b.nome = obj.nome 
-    #         b.idBanco = obj.idBanco
-    #         b.cpf = obj.cpf
-    #         cls.salvar()
+    @classmethod
+    def atualizar(cls, obj):
+        b = cls.listar_id(obj.id)
+        if b != None:
+            b.tipo = obj.tipo
+            b.idBanco = obj.idBanco
+            b.idCliente = obj.idCliente
+            cls.salvar()
     @classmethod
     def listar(cls):
         cls.abrir()
@@ -62,7 +73,19 @@ class Contas:
             with open("contas.json", mode="r") as arquivo:   # r - read
                 texto = json.load(arquivo)
                 for obj in texto:   
-                    c = Conta(obj["id"], obj["idBanco"], obj["idCliente"])
+                    c = Conta(obj["id"], obj["idBanco"], obj["idCliente"], obj["tipo"], obj["saldo"])
                     cls.contas.append(c)
         except FileNotFoundError:
             pass
+    @classmethod
+    def sacar(cls, id, quantia):
+        cls.abrir()
+        conta = cls.listar_id(id)
+        conta.sacar(quantia)
+        cls.salvar()
+    @classmethod
+    def depositar(cls, id, quantia):
+        cls.abrir()
+        conta = cls.listar_id(id)
+        conta.depositar(quantia)
+        cls.salvar()
